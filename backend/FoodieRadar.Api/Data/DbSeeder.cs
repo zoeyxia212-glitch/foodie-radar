@@ -4,6 +4,7 @@ namespace FoodieRadar.Api.Data;
 
 /// <summary>
 /// Seeds sample data on first run. All restaurant names and reviews are fictional.
+/// Each highlight must appear verbatim in its review text so the frontend can mark it.
 /// </summary>
 public static class DbSeeder
 {
@@ -26,112 +27,114 @@ public static class DbSeeder
         {
             new Restaurant
             {
-                Name = "蜀味小馆", EnglishName = "Shu Taste Kitchen", Cuisine = "sichuan", Area = "North Shore",
-                PriceLevel = 2, SpiceLevel = 4, Tastes = { "麻辣", "重口", "锅气" },
-                MustOrder = { "水煮鱼", "口水鸡", "干煸四季豆" }, Avoid = { "宫保鸡丁" },
-                Summary = "花椒够麻，四川评价者普遍认可；本地评价者多嫌太咸太油。",
-                AiVerdict = "想吃正宗麻辣就来，宫保鸡丁是甜口改良版可以跳过。周五晚上排队较久。",
+                Name = "Shu Taste Kitchen", EnglishName = "Shu Taste Kitchen", Cuisine = "sichuan", Area = "North Shore",
+                PriceLevel = 2, SpiceLevel = 4, Tastes = { "Mala", "Bold", "Wok hei" },
+                MustOrder = { "Boiled fish in chilli oil", "Mouth-watering chicken", "Dry-fried green beans" },
+                Avoid = { "Kung pao chicken" },
+                Summary = "Properly numbing Sichuan pepper. Sichuan reviewers love it; some locals find it too salty and oily.",
+                AiVerdict = "Go for real mala. Skip the kung pao chicken, which is a sweet, localised version. Expect a queue on Friday nights.",
                 Reviews =
                 {
-                    R(X, "成都人在奥克兰", "四川", 5, "终于在北岸找到花椒是真麻的川菜！水煮鱼的油是现泼的。", "花椒是真麻的", "水煮鱼"),
-                    R(G, "Mike T.", "新西兰", 3, "Way too spicy and salty for me. Service was quick though.", "too spicy and salty"),
-                    R(O, "Zoey", "中国", 4, "口水鸡必点。宫保鸡丁偏甜，像是给本地人改过的。", "口水鸡", "宫保鸡丁偏甜"),
-                    R(Rd, "u/aklfoodie", "中国", 5, "Legit Sichuan. Ask for the Chinese menu, it has more dishes.", "Chinese menu"),
+                    R(X, "Chengdu local in AKL", "Sichuan", 5, "Finally a North Shore place where the Sichuan pepper is genuinely numbing! The boiled fish gets fresh hot oil poured over at the table.", "genuinely numbing", "boiled fish"),
+                    R(G, "Mike T.", "New Zealand", 3, "Way too spicy and salty for me. Service was quick though.", "too spicy and salty"),
+                    R(O, "Zoey", "China", 4, "Mouth-watering chicken is a must. The kung pao chicken is on the sweet side, clearly adapted for locals.", "Mouth-watering chicken", "kung pao chicken is on the sweet side"),
+                    R(Rd, "u/aklfoodie", "China", 5, "Legit Sichuan. Ask for the Chinese menu, it has more dishes.", "Chinese menu"),
                 }
             },
             new Restaurant
             {
-                Name = "港湾茶餐厅", EnglishName = "Harbour Cha Chaan Teng", Cuisine = "canton", Area = "CBD",
-                PriceLevel = 1, SpiceLevel = 0, Tastes = { "鲜", "锅气", "清淡" },
-                MustOrder = { "干炒牛河", "丝袜奶茶", "菠萝油" }, Avoid = { "咖喱鱼蛋" },
-                Summary = "香港评价者认可奶茶和干炒牛河；差评主要在服务，不在食物。",
-                AiVerdict = "食物比综合分更好，差评大多是在说等位和服务态度。",
+                Name = "Harbour Cha Chaan Teng", EnglishName = "Harbour Cha Chaan Teng", Cuisine = "canton", Area = "CBD",
+                PriceLevel = 1, SpiceLevel = 0, Tastes = { "Fresh", "Wok hei", "Light" },
+                MustOrder = { "Dry-fried beef ho fun", "HK milk tea", "Pineapple bun with butter" },
+                Avoid = { "Curry fish balls" },
+                Summary = "Hong Kong reviewers rate the milk tea and beef ho fun highly. Low scores are mostly about service, not food.",
+                AiVerdict = "The food is better than the overall score suggests. Most complaints are about waiting and service.",
                 Reviews =
                 {
-                    R(X, "HK仔", "香港", 5, "干炒牛河锅气十足，奶茶够滑，有香港的感觉。", "干炒牛河锅气十足"),
-                    R(G, "Sarah L.", "英国", 2, "Staff were rude and we waited 20 mins for a table.", "waited 20 mins"),
-                    R(O, "阿May", "广东", 4, "菠萝油正，鱼蛋就一般般啦。", "菠萝油"),
+                    R(X, "HK boy", "Hong Kong", 5, "The beef ho fun has serious wok hei and the milk tea is silky. Feels like home.", "serious wok hei"),
+                    R(G, "Sarah L.", "UK", 2, "Staff were rude and we waited 20 mins for a table.", "waited 20 mins"),
+                    R(O, "May", "Guangdong", 4, "The pineapple bun is spot on. The fish balls are just OK.", "pineapple bun"),
                 }
             },
             new Restaurant
             {
-                Name = "Kaze 炉端烧", EnglishName = "Kaze Robata", Cuisine = "japan", Area = "Newmarket",
-                PriceLevel = 3, SpiceLevel = 0, Tastes = { "鲜", "清淡" },
-                MustOrder = { "炙烤三文鱼腹", "鸡肉串" }, Avoid = { "拉面" },
-                Summary = "本地评分很高，日本评价者认为调味偏甜，属于西式日料。",
-                AiVerdict = "约会请客不错；想吃地道居酒屋的话，日本评价者打分偏低。",
+                Name = "Kaze Robata", EnglishName = "Kaze Robata", Cuisine = "japan", Area = "Newmarket",
+                PriceLevel = 3, SpiceLevel = 0, Tastes = { "Fresh", "Light" },
+                MustOrder = { "Seared salmon belly", "Chicken yakitori" }, Avoid = { "Ramen" },
+                Summary = "Highly rated overall, but Japanese reviewers find the sauces sweeter than in Japan.",
+                AiVerdict = "Great for a date or a business dinner. Japanese reviewers score it lower if you want an authentic izakaya.",
                 Reviews =
                 {
-                    R(G, "Yuki S.", "日本", 3, "刺身は新鮮。でもタレが少し甘すぎる。", "タレが少し甘すぎる"),
-                    R(G, "James W.", "新西兰", 5, "Best date night spot! The salmon belly is incredible.", "salmon belly"),
-                    R(X, "东京胃", "中国", 4, "环境满分，拉面不建议，汤底太淡。", "拉面不建议"),
+                    R(G, "Yuki S.", "Japan", 3, "The sashimi is fresh, but the tare sauce is a bit too sweet for me.", "a bit too sweet"),
+                    R(G, "James W.", "New Zealand", 5, "Best date night spot! The salmon belly is incredible.", "salmon belly"),
+                    R(X, "Tokyo stomach", "China", 4, "Lovely interior. Skip the ramen though, the broth is too thin.", "Skip the ramen"),
                 }
             },
             new Restaurant
             {
-                Name = "Seoul Pocha", EnglishName = "首尔布帐马车", Cuisine = "korea", Area = "CBD",
-                PriceLevel = 2, SpiceLevel = 3, Tastes = { "甜", "重口", "酸" },
-                MustOrder = { "部队锅", "酱油炸鸡", "自家泡菜" }, Avoid = { "石锅拌饭" },
-                Summary = "韩国留学生常去，部队锅和炸鸡获韩国评价者好评。",
-                AiVerdict = "韩国人自己也来吃，适合 4 人以上聚餐。",
+                Name = "Seoul Pocha", EnglishName = "Seoul Pocha", Cuisine = "korea", Area = "CBD",
+                PriceLevel = 2, SpiceLevel = 3, Tastes = { "Sweet", "Bold", "Sour" },
+                MustOrder = { "Army stew", "Soy garlic fried chicken", "House kimchi" }, Avoid = { "Stone pot bibimbap" },
+                Summary = "Popular with Korean students. Korean reviewers rate the army stew and fried chicken highly; the kimchi is made in-house.",
+                AiVerdict = "Koreans eat here too, which is a good sign. Best for groups of four or more.",
                 Reviews =
                 {
-                    R(G, "Minji K.", "韩国", 5, "김치 직접 담근 맛! 부대찌개 진짜 맛있어요.", "김치 직접 담근 맛"),
-                    R(X, "韩剧少女", "中国", 4, "酱油炸鸡比甜辣的好吃，拌饭一般。", "酱油炸鸡"),
+                    R(G, "Minji K.", "Korea", 5, "The kimchi tastes homemade! The army stew is really good.", "kimchi tastes homemade"),
+                    R(X, "K-drama fan", "China", 4, "The soy garlic chicken beats the sweet chilli one. Bibimbap was average.", "soy garlic chicken"),
                 }
             },
             new Restaurant
             {
-                Name = "Phở Mẹ", EnglishName = "Mum's Pho", Cuisine = "vietnam", Area = "Dominion Rd",
-                PriceLevel = 1, SpiceLevel = 1, Tastes = { "鲜", "汤底浓", "清淡" },
-                MustOrder = { "生熟牛河粉", "越式法包" },
-                Summary = "越南评价者打分最高，牛骨汤底浓郁，性价比高。",
-                AiVerdict = "本区正宗度第一，周末中午建议 11:30 前到。",
+                Name = "Pho Me", EnglishName = "Mum's Pho", Cuisine = "vietnam", Area = "Dominion Rd",
+                PriceLevel = 1, SpiceLevel = 1, Tastes = { "Fresh", "Rich broth", "Light" },
+                MustOrder = { "Rare and well-done beef pho", "Banh mi" },
+                Summary = "Vietnamese reviewers give it top marks for a deep beef bone broth. Great value.",
+                AiVerdict = "The most authentic pho in the area. Get there before 11:30 on weekends.",
                 Reviews =
                 {
-                    R(G, "Linh N.", "越南", 5, "Giống phở Hà Nội, nước dùng rất ngọt xương.", "Giống phở Hà Nội"),
-                    R(Rd, "u/pho_hunter", "新西兰", 5, "Best pho in Auckland, $16 for a huge bowl.", "$16 for a huge bowl"),
-                    R(O, "小林", "中国", 4, "汤底很浓，就是座位有点挤。", "汤底很浓"),
+                    R(G, "Linh N.", "Vietnam", 5, "Just like pho in Hanoi. The broth is sweet from the bones.", "Just like pho in Hanoi"),
+                    R(Rd, "u/pho_hunter", "New Zealand", 5, "Best pho in Auckland, $16 for a huge bowl.", "$16 for a huge bowl"),
+                    R(O, "Lin", "China", 4, "The broth is really rich. Seating is a bit cramped.", "broth is really rich"),
                 }
             },
             new Restaurant
             {
-                Name = "Bangkok Street", EnglishName = "曼谷街头", Cuisine = "thai", Area = "North Shore",
-                PriceLevel = 2, SpiceLevel = 3, Tastes = { "酸", "甜", "麻辣" },
-                MustOrder = { "泰式炒河粉", "绿咖喱" }, Avoid = { "冬阴功" },
-                Summary = "本地人喜欢，泰国评价者认为太甜、不够辣。",
-                AiVerdict = "本地口味友好，想吃地道泰餐可能会失望。",
+                Name = "Bangkok Street", EnglishName = "Bangkok Street", Cuisine = "thai", Area = "North Shore",
+                PriceLevel = 2, SpiceLevel = 3, Tastes = { "Sour", "Sweet", "Mala" },
+                MustOrder = { "Pad thai", "Green curry" }, Avoid = { "Tom yum" },
+                Summary = "Locals love it; Thai reviewers say it is too sweet and not spicy enough.",
+                AiVerdict = "Friendly to local tastes, but you may be disappointed if you want authentic Thai.",
                 Reviews =
                 {
-                    R(G, "Ploy P.", "泰国", 3, "Too sweet, tom yum not sour enough. Not like Bangkok.", "Too sweet"),
-                    R(G, "Emma R.", "新西兰", 5, "Love the green curry! Perfect spice level.", "green curry"),
+                    R(G, "Ploy P.", "Thailand", 3, "Too sweet, tom yum not sour enough. Not like Bangkok.", "Too sweet"),
+                    R(G, "Emma R.", "New Zealand", 5, "Love the green curry! Perfect spice level.", "green curry"),
                 }
             },
             new Restaurant
             {
-                Name = "Kopitiam 88", EnglishName = "咖啡店 88", Cuisine = "malay", Area = "Botany",
-                PriceLevel = 1, SpiceLevel = 2, Tastes = { "汤底浓", "重口", "鲜" },
-                MustOrder = { "咖喱叻沙", "椰浆饭", "海南鸡饭" }, Avoid = { "Roti" },
-                Summary = "马来西亚评价者认可叻沙和椰浆饭，参巴酱自制。",
-                AiVerdict = "东区性价比之选，叻沙最受好评。",
+                Name = "Kopitiam 88", EnglishName = "Kopitiam 88", Cuisine = "malay", Area = "Botany",
+                PriceLevel = 1, SpiceLevel = 2, Tastes = { "Rich broth", "Bold", "Fresh" },
+                MustOrder = { "Curry laksa", "Nasi lemak", "Hainanese chicken rice" }, Avoid = { "Roti" },
+                Summary = "Malaysian reviewers rate the laksa and nasi lemak; the sambal is made in-house.",
+                AiVerdict = "Great value in the east. The laksa gets the most praise.",
                 Reviews =
                 {
-                    R(X, "槟城妹", "马来西亚", 5, "参巴酱是自己做的，叻沙汤头够浓！", "参巴酱是自己做的"),
-                    R(G, "Daniel O.", "新西兰", 4, "Great laksa. Roti was a bit oily.", "Roti was a bit oily"),
+                    R(X, "Penang girl", "Malaysia", 5, "The sambal is homemade and the laksa broth is properly rich!", "sambal is homemade"),
+                    R(G, "Daniel O.", "New Zealand", 4, "Great laksa. Roti was a bit oily.", "Roti was a bit oily"),
                 }
             },
             new Restaurant
             {
-                Name = "老成都串串", EnglishName = "Old Chengdu Skewers", Cuisine = "sichuan", Area = "Dominion Rd",
-                PriceLevel = 2, SpiceLevel = 5, Tastes = { "麻辣", "重口", "汤底浓" },
-                MustOrder = { "牛油锅底", "郡肝", "藤椒鸡" },
-                Summary = "综合分偏低是因为本地人吃不了这么辣；中国评价者给分很高。",
-                AiVerdict = "综合评分严重低估，只看同乡评价分数高很多。不能吃辣慎入。",
+                Name = "Old Chengdu Skewers", EnglishName = "Old Chengdu Skewers", Cuisine = "sichuan", Area = "Dominion Rd",
+                PriceLevel = 2, SpiceLevel = 5, Tastes = { "Mala", "Bold", "Rich broth" },
+                MustOrder = { "Beef tallow hotpot base", "Chicken gizzards", "Green Sichuan pepper chicken" },
+                Summary = "The overall score is low because many locals can't handle the heat. Chinese reviewers rate it very highly.",
+                AiVerdict = "Badly underrated overall. With native reviewers only, it scores much higher. Not for the spice-shy.",
                 Reviews =
                 {
-                    R(X, "重庆火锅控", "重庆", 5, "牛油锅底是正经炒的，不是那种料包味。", "牛油锅底"),
-                    R(G, "Tom H.", "澳大利亚", 2, "My mouth was on fire for an hour. Not for me.", "on fire"),
-                    R(O, "Zoey", "中国", 5, "藤椒鸡超级惊喜，下次还来！", "藤椒鸡"),
+                    R(X, "Chongqing hotpot fan", "Chongqing", 5, "The beef tallow base is properly fried in-house, not from a packet.", "beef tallow base"),
+                    R(G, "Tom H.", "Australia", 2, "My mouth was on fire for an hour. Not for me.", "on fire"),
+                    R(O, "Zoey", "China", 5, "The green Sichuan pepper chicken was a great surprise. Will be back!", "green Sichuan pepper chicken"),
                 }
             }
         };

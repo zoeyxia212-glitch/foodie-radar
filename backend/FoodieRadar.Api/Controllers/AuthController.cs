@@ -23,19 +23,19 @@ public class AuthController(AppDbContext db, TokenService tokens) : ControllerBa
     {
         var email = (req.Email ?? "").Trim().ToLowerInvariant();
         var errors = new Dictionary<string, string[]>();
-        if (!IsEmail(email)) errors["email"] = new[] { "邮箱格式不对" };
+        if (!IsEmail(email)) errors["email"] = new[] { "Please enter a valid email" };
         if (string.IsNullOrEmpty(req.Password) || req.Password.Length < 8)
-            errors["password"] = new[] { "密码至少 8 位" };
+            errors["password"] = new[] { "Password must be at least 8 characters" };
         if (string.IsNullOrWhiteSpace(req.DisplayName) || req.DisplayName.Trim().Length > 50)
-            errors["displayName"] = new[] { "昵称必填，最多 50 字" };
+            errors["displayName"] = new[] { "Display name is required (max 50 characters)" };
         if (!CuisineCatalog.Origins.Contains(req.Origin))
-            errors["origin"] = new[] { "请选择你来自哪里" };
+            errors["origin"] = new[] { "Please choose where you are from" };
         if (errors.Count > 0) return ValidationProblem(new ValidationProblemDetails(errors));
 
         if (await db.Users.AnyAsync(u => u.Email == email))
             return Conflict(new ValidationProblemDetails(new Dictionary<string, string[]>
             {
-                ["email"] = new[] { "这个邮箱已经注册过了" }
+                ["email"] = new[] { "This email is already registered" }
             }));
 
         var user = new User { Email = email, DisplayName = req.DisplayName.Trim(), Origin = req.Origin };
@@ -59,7 +59,7 @@ public class AuthController(AppDbContext db, TokenService tokens) : ControllerBa
         {
             return Unauthorized(new ValidationProblemDetails(new Dictionary<string, string[]>
             {
-                ["login"] = new[] { "邮箱或密码不正确" }
+                ["login"] = new[] { "Incorrect email or password" }
             }));
         }
 

@@ -21,7 +21,7 @@ public class Review
     public ReviewSource Source { get; set; }
     public string Author { get; set; } = "";
 
-    /// <summary>Where the reviewer is from, e.g. "四川", "日本", "新西兰".</summary>
+    /// <summary>Where the reviewer is from, e.g. "Sichuan", "Japan", "New Zealand".</summary>
     public string ReviewerOrigin { get; set; } = "";
 
     public int Rating { get; set; }

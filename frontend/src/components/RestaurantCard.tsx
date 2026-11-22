@@ -14,7 +14,7 @@ export default function RestaurantCard({ r, onOpen }: Props) {
       <div className="card-top">
         <div>
           <h2>
-            {r.name} {r.isDemo && <span className="demo">示例</span>}
+            {r.name} {r.isDemo && <span className="demo">Demo</span>}
           </h2>
           <div className="meta">
             {metaLine(
@@ -33,17 +33,17 @@ export default function RestaurantCard({ r, onOpen }: Props) {
         <div className="score native">
           <div className="n">{fmt(r.nativeRating)}</div>
           <div className="l">
-            正宗度 · {r.originLabel}评价者 {r.nativeReviewCount} 条
+            Authenticity · {r.nativeReviewCount} from {r.originLabel}
           </div>
         </div>
         <div className="score">
           <div className="n">{fmt(r.overallRating)}</div>
-          <div className="l">综合评分 · 共 {r.reviewCount} 条</div>
+          <div className="l">Overall · {r.reviewCount} review{r.reviewCount === 1 ? '' : 's'}</div>
         </div>
       </div>
 
       <p className={`summary ${r.summary ? '' : 'muted'}`}>
-        {r.summary || '还没有评价摘要，来写第一条评价吧'}
+        {r.summary || 'No summary yet. Be the first to write a review!'}
       </p>
 
       {(r.mustOrder.length > 0 || r.avoid.length > 0) && <div className="dishes">

@@ -32,10 +32,10 @@ function ReviewItem({ v, onHelpful }: { v: Review; onHelpful: (id: number) => vo
       <div className="review-meta">
         <SourceBadge source={v.source} />
         <b>{v.author}</b>
-        {v.isMine && <span className="demo">我</span>}
-        <span className={`origin ${v.isNative ? 'native' : ''}`}>来自 {v.reviewerOrigin}</span>
+        {v.isMine && <span className="demo">You</span>}
+        <span className={`origin ${v.isNative ? 'native' : ''}`}>from {v.reviewerOrigin}</span>
         <Stars n={v.rating} />
-        <span className="muted">{new Date(v.createdAt).toLocaleDateString('zh-CN')}</span>
+        <span className="muted">{new Date(v.createdAt).toLocaleDateString('en-NZ')}</span>
       </div>
       <p>
         <Highlighted text={v.text} phrases={v.highlights} />
@@ -55,10 +55,10 @@ function ReviewItem({ v, onHelpful }: { v: Review; onHelpful: (id: number) => vo
         </div>
       )}
       {v.isMine ? (
-        v.helpfulCount > 0 && <span className="helpful on">👍 {v.helpfulCount} 人觉得有用</span>
+        v.helpfulCount > 0 && <span className="helpful on">👍 {v.helpfulCount} found this helpful</span>
       ) : (
         <button type="button" className={`helpful ${voted ? 'on' : ''}`} disabled={voted} onClick={() => onHelpful(v.id)}>
-          👍 有用{v.helpfulCount > 0 && ` · ${v.helpfulCount}`}
+          👍 Helpful{v.helpfulCount > 0 && ` · ${v.helpfulCount}`}
         </button>
       )}
     </div>
@@ -100,7 +100,7 @@ export default function RestaurantModal({ id, meta, defaultNative, onClose, onCh
         },
       );
     } catch (e) {
-      setError(e instanceof Error ? e.message : '操作失败');
+      setError(e instanceof Error ? e.message : 'Something went wrong');
     }
   };
 
@@ -118,19 +118,19 @@ export default function RestaurantModal({ id, meta, defaultNative, onClose, onCh
       <div className="modal" role="dialog" aria-modal="true">
         {error && <div className="error">{error}</div>}
         {!r ? (
-          !error && <div className="muted">加载中…</div>
+          !error && <div className="muted">Loading…</div>
         ) : (
           <>
             <div className="modal-head">
               <div>
                 <h2>
-                  {r.flag} {r.name} {r.isDemo && <span className="demo">示例</span>}
+                  {r.flag} {r.name} {r.isDemo && <span className="demo">Demo</span>}
                 </h2>
                 <div className="meta">
                   {metaLine(r.englishName !== r.name ? r.englishName : '', r.cuisineName, r.suburb || r.area, price(r.priceLevel))}
                 </div>
               </div>
-              <button className="close" onClick={onClose} aria-label="关闭">×</button>
+              <button className="close" onClick={onClose} aria-label="Close">×</button>
             </div>
 
             <div className="info">
@@ -139,14 +139,14 @@ export default function RestaurantModal({ id, meta, defaultNative, onClose, onCh
               {detail?.phone && <div>📞 {detail.phone}</div>}
               <div className="links">
                 {detail?.website && /^https?:\/\//i.test(detail.website) && (
-                  <a href={detail.website} target="_blank" rel="noreferrer">官网</a>
+                  <a href={detail.website} target="_blank" rel="noreferrer">Website</a>
                 )}
-                {detail?.osmUrl && <a href={detail.osmUrl} target="_blank" rel="noreferrer">在 OpenStreetMap 查看</a>}
+                {detail?.osmUrl && <a href={detail.osmUrl} target="_blank" rel="noreferrer">View on OpenStreetMap</a>}
               </div>
             </div>
 
             <div className="ai">
-              💡 <b>一句话结论：</b>{detail?.aiVerdict || '评价还不够多，暂时无法生成结论。'}
+              💡 <b>In short: </b>{detail?.aiVerdict || 'Not enough reviews for a verdict yet.'}
               {r.summary && <div className="ai-summary">{r.summary}</div>}
             </div>
 
@@ -179,11 +179,11 @@ export default function RestaurantModal({ id, meta, defaultNative, onClose, onCh
             <div className="scores">
               <div className="score native">
                 <div className="n">{fmt(r.nativeRating)}</div>
-                <div className="l">{r.originLabel}评价者打分</div>
+                <div className="l">Rating from {r.originLabel} reviewers</div>
               </div>
               <div className="score">
                 <div className="n">{fmt(r.overallRating)}</div>
-                <div className="l">全部评价者打分</div>
+                <div className="l">Rating from all reviewers</div>
               </div>
             </div>
 
@@ -191,20 +191,20 @@ export default function RestaurantModal({ id, meta, defaultNative, onClose, onCh
               <div className="chips">
                 {(['all', 'native', ...SOURCES] as Tab[]).map((t) => (
                   <button key={t} className={`chip ${tab === t ? 'on' : ''}`} onClick={() => setTab(t)}>
-                    {t === 'all' ? '全部' : t === 'native' ? `只看${r.originLabel}` : SOURCE_LABEL[t]}
+                    {t === 'all' ? 'All' : t === 'native' ? `From ${r.originLabel}` : SOURCE_LABEL[t]}
                   </button>
                 ))}
               </div>
               <select value={sort} onChange={(e) => setSort(e.target.value as ReviewSort)}>
-                <option value="helpful">最有用</option>
-                <option value="newest">最新</option>
-                <option value="high">评分最高</option>
-                <option value="low">评分最低</option>
+                <option value="helpful">Most helpful</option>
+                <option value="newest">Newest</option>
+                <option value="high">Highest rated</option>
+                <option value="low">Lowest rated</option>
               </select>
             </div>
 
             {reviews.length === 0 ? (
-              <div className="empty small">这个分类下暂时没有评价</div>
+              <div className="empty small">No reviews here yet</div>
             ) : (
               reviews.map((v) => <ReviewItem key={v.id} v={v} onHelpful={markHelpful} />)
             )}

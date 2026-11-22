@@ -16,9 +16,9 @@ public class KeywordInsightService : IReviewInsightService
 {
     private static readonly string[] TastePhrases =
     {
-        "太辣", "太咸", "太甜", "太油", "太淡", "偏甜", "偏咸", "不辣", "够麻", "够辣",
-        "正宗", "锅气", "份量", "排队", "性价比", "汤底",
-        "too spicy", "too salty", "too sweet", "oily", "authentic", "portion", "value"
+        "too spicy", "too salty", "too sweet", "too oily", "bland", "not spicy",
+        "authentic", "wok hei", "portion", "queue", "value for money", "broth",
+        "numbing", "fresh", "greasy", "overpriced", "generous"
     };
 
     public List<string> ExtractHighlights(Restaurant restaurant, string text, IEnumerable<string> extraDishes)

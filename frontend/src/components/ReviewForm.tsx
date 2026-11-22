@@ -59,7 +59,7 @@ function DishPicker({
         {value.length < MAX_DISHES && (
           <input
             className="chip-input"
-            placeholder="输入菜名，回车添加"
+            placeholder="Type a dish, press Enter"
             value={draft}
             maxLength={30}
             onChange={(e) => setDraft(e.target.value)}
@@ -121,7 +121,7 @@ export default function ReviewForm({ restaurantId, meta, knownDishes, onCreated,
       setPriceLevel(null);
       onCreated();
     } catch (err) {
-      setError(err instanceof Error ? err.message : '提交失败');
+      setError(err instanceof Error ? err.message : 'Could not submit');
     } finally {
       setSaving(false);
     }
@@ -130,9 +130,9 @@ export default function ReviewForm({ restaurantId, meta, knownDishes, onCreated,
   if (!user) {
     return (
       <div className="review-form locked">
-        <h3>✍️ 写评价</h3>
-        <p className="muted">登录后就能写评价，你的家乡会用来计算「同乡评分」。</p>
-        <button type="button" className="primary" onClick={requestLogin}>登录 / 注册</button>
+        <h3>✍️ Write a review</h3>
+        <p className="muted">Log in to write a review. Where you’re from feeds the native-reviewer score.</p>
+        <button type="button" className="primary" onClick={requestLogin}>Log in / Sign up</button>
       </div>
     );
   }
@@ -140,16 +140,16 @@ export default function ReviewForm({ restaurantId, meta, knownDishes, onCreated,
   if (alreadyReviewed) {
     return (
       <div className="review-form locked">
-        <p className="muted">✅ 你已经评价过这家店了，谢谢！</p>
+        <p className="muted">✅ You’ve already reviewed this place. Thanks!</p>
       </div>
     );
   }
 
   return (
     <form className="review-form" onSubmit={submit}>
-      <h3>✍️ 写评价</h3>
+      <h3>✍️ Write a review</h3>
       <p className="muted small">
-        以 <b>{user.displayName}</b>（来自 {user.origin}）的身份发表
+        Posting as <b>{user.displayName}</b> (from {user.origin})
       </p>
 
       <div className="form-row single">
@@ -160,11 +160,11 @@ export default function ReviewForm({ restaurantId, meta, knownDishes, onCreated,
         </select>
       </div>
 
-      <DishPicker label="👍 推荐" value={recommended} onChange={setRecommended} suggestions={knownDishes} tone="good" />
-      <DishPicker label="👎 避雷" value={avoid} onChange={setAvoid} suggestions={knownDishes} tone="bad" />
+      <DishPicker label="👍 Order" value={recommended} onChange={setRecommended} suggestions={knownDishes} tone="good" />
+      <DishPicker label="👎 Skip" value={avoid} onChange={setAvoid} suggestions={knownDishes} tone="bad" />
 
       <div className="picker">
-        <span className="picker-label">👅 口味</span>
+        <span className="picker-label">👅 Taste</span>
         <div className="chips">
           {meta.tastes.map((t) => (
             <button key={t} type="button" className={`chip spicy ${tastes.includes(t) ? 'on' : ''}`} onClick={() => toggleTaste(t)}>
@@ -175,18 +175,18 @@ export default function ReviewForm({ restaurantId, meta, knownDishes, onCreated,
       </div>
 
       <div className="picker">
-        <span className="picker-label">🌶 辣度</span>
+        <span className="picker-label">🌶 Spice</span>
         <div className="chips">
           {[0, 1, 2, 3, 4, 5].map((n) => (
             <button key={n} type="button" className={`chip spicy ${spice === n ? 'on' : ''}`} onClick={() => setSpice(spice === n ? null : n)}>
-              {n === 0 ? '不辣' : SPICE_LABELS[n].replace('+', '')}
+              {n === 0 ? 'None' : SPICE_LABELS[n].replace('+', '')}
             </button>
           ))}
         </div>
       </div>
 
       <div className="picker">
-        <span className="picker-label">💰 人均</span>
+        <span className="picker-label">💰 Per person</span>
         <div className="chips">
           {[
             [1, '$ <$20'],
@@ -206,7 +206,7 @@ export default function ReviewForm({ restaurantId, meta, knownDishes, onCreated,
       </div>
 
       <textarea
-        placeholder="说说具体的菜、口味、份量……越具体越有用"
+        placeholder="Tell us about specific dishes, flavour, portions… the more specific, the more useful"
         value={text}
         maxLength={2000}
         rows={3}
@@ -215,7 +215,7 @@ export default function ReviewForm({ restaurantId, meta, knownDishes, onCreated,
       />
       {error && <div className="error">{error}</div>}
       <button type="submit" className="primary" disabled={saving}>
-        {saving ? '提交中…' : '提交评价'}
+        {saving ? 'Submitting…' : 'Submit review'}
       </button>
     </form>
   );

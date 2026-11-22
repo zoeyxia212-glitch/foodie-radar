@@ -1,4 +1,4 @@
-# 吃货雷达 Foodie Radar
+# Foodie Radar
 
 Multi-source restaurant review aggregator with filters by cuisine/country, taste, spice level, area, and an **"only native reviewers"** authenticity score.
 
@@ -123,7 +123,7 @@ frontend/src
 ## Map and "near me"
 
 - List / map toggle. The map uses Leaflet with OpenStreetMap tiles (lazy-loaded), coloured by score.
-- "📍 附近" asks the browser for your location and sorts by distance (`sort=distance&lat=&lon=`).
+- "📍 Near me" asks the browser for your location and sorts by distance (`sort=distance&lat=&lon=`).
 - OSM's public tile server is fine for development; switch to a tile provider before real traffic.
 
 ## How the restaurant profile is built
@@ -134,11 +134,11 @@ frontend/src
 - **Must-order / avoid**: dishes recommended more often than flagged, and vice versa
 - **Taste tags**: tags picked by at least 30% of reviewers who picked any
 - **Spice / price**: rounded average of reviewers' input
-- **Summary and verdict**: rule-based text (e.g. native reviewers rate it 0.5+ higher than everyone → "差评多半是本地人不习惯这个口味"). Replace with an LLM later.
+- **Summary and verdict**: rule-based text (e.g. native reviewers rate it 0.5+ higher than everyone → "low scores are probably locals not used to the flavour"). Replace with an LLM later.
 
 ## How "native" scoring works
 
-Each cuisine in `CuisineCatalog` lists its native reviewer origins (e.g. 川菜 → 四川, 重庆, 中国).
+Each cuisine in `CuisineCatalog` lists its native reviewer origins (e.g. Sichuan → Sichuan, Chongqing, China).
 `NativeRating` is the average rating from reviews whose `ReviewerOrigin` is in that list; `OverallRating` uses every review.
 
 ## Next steps

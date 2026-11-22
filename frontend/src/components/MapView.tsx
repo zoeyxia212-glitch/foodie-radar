@@ -35,7 +35,7 @@ export default function MapView({ items, here, onOpen }: Props) {
 
         {here && (
           <CircleMarker center={[here.lat, here.lon]} radius={7} pathOptions={{ color: '#4a7bd8', fillOpacity: 0.9 }}>
-            <Tooltip>你在这里</Tooltip>
+            <Tooltip>You are here</Tooltip>
           </CircleMarker>
         )}
 
@@ -54,9 +54,9 @@ export default function MapView({ items, here, onOpen }: Props) {
                   {r.distanceKm !== null && ` · ${r.distanceKm} km`}
                 </div>
                 <div className="small">
-                  正宗度 {fmt(r.nativeRating)} · 综合 {fmt(r.overallRating)} · {r.reviewCount} 条评价
+                  Authenticity {fmt(r.nativeRating)} · Overall {fmt(r.overallRating)} · {r.reviewCount} reviews
                 </div>
-                <button type="button" className="link" onClick={() => onOpen(r.id)}>查看详情 →</button>
+                <button type="button" className="link" onClick={() => onOpen(r.id)}>View details →</button>
               </div>
             </Popup>
           </CircleMarker>
@@ -67,8 +67,8 @@ export default function MapView({ items, here, onOpen }: Props) {
         <span><i style={{ background: '#2f7d5b' }} />4.3+</span>
         <span><i style={{ background: '#c98a1b' }} />3.5–4.2</span>
         <span><i style={{ background: '#d6452c' }} />&lt;3.5</span>
-        <span><i style={{ background: '#a39a91' }} />暂无评价</span>
-        {located.length < items.length && <span className="muted">{items.length - located.length} 家没有坐标</span>}
+        <span><i style={{ background: '#a39a91' }} />No reviews yet</span>
+        {located.length < items.length && <span className="muted">{items.length - located.length} without coordinates</span>}
       </div>
     </div>
   );

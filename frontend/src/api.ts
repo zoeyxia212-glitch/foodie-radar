@@ -54,7 +54,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   });
   if (!res.ok) {
     let message =
-      res.status === 401 ? '请先登录' : res.status === 429 ? '操作太频繁了，请稍后再试' : `请求失败（${res.status}）`;
+      res.status === 401 ? 'Please log in first' : res.status === 429 ? 'Too many requests, please try again shortly' : `Request failed (${res.status})`;
     try {
       const body = await res.json();
       if (body?.errors) message = Object.values(body.errors as Record<string, string[]>).flat().join('；');

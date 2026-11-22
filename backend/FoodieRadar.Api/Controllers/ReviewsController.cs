@@ -23,7 +23,7 @@ public class ReviewsController(AppDbContext db) : ControllerBase
 
         var review = await db.Reviews.FirstOrDefaultAsync(v => v.Id == id);
         if (review is null) return NotFound();
-        if (review.UserId == userId) return BadRequest(new { message = "不能给自己的评价投票" });
+        if (review.UserId == userId) return BadRequest(new { message = "You can't vote on your own review" });
 
         var already = await db.HelpfulVotes.AnyAsync(h => h.UserId == userId && h.ReviewId == id);
         if (!already)

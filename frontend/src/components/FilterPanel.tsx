@@ -31,17 +31,17 @@ export default function FilterPanel({ meta, filters, onChange, onReset }: Props)
   return (
     <aside className="filters">
       <section>
-        <h3>🌏 菜系 / 国家</h3>
+        <h3>🌏 Cuisine / country</h3>
         <div className="chips">{meta.cuisines.map((c) => chip('cuisines', c.key, `${c.flag} ${c.name}`))}</div>
       </section>
 
       <section>
-        <h3>👅 口味</h3>
+        <h3>👅 Taste</h3>
         <div className="chips">{meta.tastes.map((t) => chip('tastes', t, t, 'spicy'))}</div>
       </section>
 
       <section>
-        <h3>🌶 最低辣度</h3>
+        <h3>🌶 Minimum spice</h3>
         <input
           type="range"
           min={0}
@@ -50,14 +50,14 @@ export default function FilterPanel({ meta, filters, onChange, onReset }: Props)
           onChange={(e) => onChange({ ...filters, minSpice: Number(e.target.value) })}
         />
         <div className="range-labels">
-          <span>不限</span>
+          <span>Any</span>
           <b>{SPICE_LABELS[filters.minSpice]}</b>
-          <span>变态辣</span>
+          <span>Extra hot</span>
         </div>
       </section>
 
       <section>
-        <h3>📍 区域</h3>
+        <h3>📍 Area</h3>
         <div className="chips">{meta.areas.map((a) => chip('areas', a, a))}</div>
       </section>
 
@@ -69,8 +69,8 @@ export default function FilterPanel({ meta, filters, onChange, onReset }: Props)
             onChange={(e) => onChange({ ...filters, nativeOnly: e.target.checked })}
           />
           <div>
-            <b>只看「本国人」评价</b>
-            <small>只显示有同乡评价的餐厅，打开详情时默认只看同乡评价</small>
+            <b>Native reviewers only</b>
+            <small>Only show places reviewed by people from the cuisine’s home country, and open their reviews first</small>
           </div>
         </label>
       </section>
@@ -83,13 +83,13 @@ export default function FilterPanel({ meta, filters, onChange, onReset }: Props)
             onChange={(e) => onChange({ ...filters, hasReviews: e.target.checked })}
           />
           <div>
-            <b>只看有评价的餐厅</b>
+            <b>Only places with reviews</b>
           </div>
         </label>
       </section>
 
       <button type="button" className="reset" onClick={onReset}>
-        清空筛选
+        Clear filters
       </button>
     </aside>
   );

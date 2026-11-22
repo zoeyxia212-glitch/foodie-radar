@@ -2,12 +2,12 @@ import type { ReactNode } from 'react';
 import type { ReviewSource } from '../types';
 import { SOURCE_LABEL } from '../types';
 
-export const SPICE_LABELS = ['不限', '微辣+', '小辣+', '中辣+', '大辣+', '变态辣'];
+export const SPICE_LABELS = ['Any', 'Mild+', 'Low+', 'Medium+', 'Hot+', 'Extra hot'];
 
 export function Chili({ level }: { level: number }) {
-  if (level === 0) return <span className="muted small">不辣</span>;
+  if (level === 0) return <span className="muted small">Not spicy</span>;
   return (
-    <span className="chilis" title={`辣度 ${level}/5`}>
+    <span className="chilis" title={`Spice ${level}/5`}>
       {'🌶'.repeat(level)}
       <span className="faded">{'🌶'.repeat(5 - level)}</span>
     </span>
@@ -29,7 +29,7 @@ export function Stars({ n }: { n: number }) {
 
 export const price = (level: number) => '$'.repeat(Math.max(0, level));
 
-/** "English name · 川菜 · Takapuna · $$" — skips empty parts */
+/** "English name · Sichuan · Takapuna · $$" — skips empty parts */
 export const metaLine = (...parts: (string | undefined)[]) => parts.filter(Boolean).join(' · ');
 
 export const fmt = (n: number | null) => (n === null ? '—' : n.toFixed(1));

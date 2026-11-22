@@ -63,7 +63,7 @@ export default function App() {
         setPage(upTo);
         setError(null);
       } catch (e) {
-        setError(e instanceof Error ? e.message : '加载失败');
+        setError(e instanceof Error ? e.message : 'Failed to load');
       } finally {
         setLoading(false);
       }
@@ -83,7 +83,7 @@ export default function App() {
       setTotal(next.total);
       setPage(page + 1);
     } catch (e) {
-      setError(e instanceof Error ? e.message : '加载失败');
+      setError(e instanceof Error ? e.message : 'Failed to load');
     } finally {
       setLoading(false);
     }
@@ -91,7 +91,7 @@ export default function App() {
 
   const findNearby = () => {
     if (!('geolocation' in navigator)) {
-      setError('这个浏览器不支持定位');
+      setError('This browser does not support location');
       return;
     }
     setLocating(true);
@@ -102,7 +102,7 @@ export default function App() {
         setLocating(false);
       },
       () => {
-        setError('没能获取你的位置，请检查浏览器的定位权限');
+        setError('Could not get your location. Please check the browser location permission.');
         setLocating(false);
       },
       { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 },
@@ -113,12 +113,12 @@ export default function App() {
     <>
       <header className="site-header">
         <div className="brand">
-          <h1>吃货<span>雷达</span></h1>
-          <p>多平台评价汇总，帮你挑出真正有用的那几句</p>
+          <h1>Foodie <span>Radar</span></h1>
+          <p>Reviews from every platform, boiled down to the bits that actually help</p>
         </div>
         <input
           className="search"
-          placeholder="搜店名、菜名、区域，比如「水煮鱼」「Takapuna」"
+          placeholder="Search restaurants, dishes or suburbs, e.g. “laksa”, “Takapuna”"
           value={filters.q}
           onChange={(e) => setFilters({ ...filters, q: e.target.value })}
         />
@@ -126,12 +126,12 @@ export default function App() {
           {checking ? null : user ? (
             <>
               <span className="muted small">
-                {user.displayName} · 来自 {user.origin}
+                {user.displayName} · from {user.origin}
               </span>
-              <button type="button" className="link" onClick={signOut}>退出</button>
+              <button type="button" className="link" onClick={signOut}>Log out</button>
             </>
           ) : (
-            <button type="button" className="secondary" onClick={requestLogin}>登录 / 注册</button>
+            <button type="button" className="secondary" onClick={requestLogin}>Log in / Sign up</button>
           )}
         </div>
       </header>
@@ -140,30 +140,30 @@ export default function App() {
         {meta ? (
           <FilterPanel meta={meta} filters={filters} onChange={setFilters} onReset={() => setFilters(EMPTY)} />
         ) : (
-          <aside className="filters muted">加载筛选项…</aside>
+          <aside className="filters muted">Loading filters…</aside>
         )}
 
         <main>
           <div className="topbar">
             <span className="muted">
-              {loading && list.length === 0 ? '加载中…' : `找到 ${total} 家餐厅`}
+              {loading && list.length === 0 ? 'Loading…' : `${total} restaurant${total === 1 ? '' : 's'} found`}
             </span>
             <div className="topbar-actions">
               <button type="button" className="secondary" onClick={findNearby} disabled={locating}>
-                {locating ? '定位中…' : '📍 附近'}
+                {locating ? 'Locating…' : '📍 Near me'}
               </button>
               <div className="segmented">
-                <button type="button" className={view === 'list' ? 'on' : ''} onClick={() => setView('list')}>列表</button>
-                <button type="button" className={view === 'map' ? 'on' : ''} onClick={() => setView('map')}>地图</button>
+                <button type="button" className={view === 'list' ? 'on' : ''} onClick={() => setView('list')}>List</button>
+                <button type="button" className={view === 'map' ? 'on' : ''} onClick={() => setView('map')}>Map</button>
               </div>
               <select
                 value={filters.sort}
                 onChange={(e) => setFilters({ ...filters, sort: e.target.value as SortKey })}
               >
-                <option value="native">按正宗度排序</option>
-                <option value="overall">按综合评分排序</option>
-                <option value="reviews">按评价数排序</option>
-                <option value="distance" disabled={!here}>按距离排序{here ? '' : '（先点「附近」）'}</option>
+                <option value="native">Sort by authenticity</option>
+                <option value="overall">Sort by overall rating</option>
+                <option value="reviews">Sort by most reviewed</option>
+                <option value="distance" disabled={!here}>Sort by distance{here ? '' : ' (tap “Near me” first)'}</option>
               </select>
             </div>
           </div>
@@ -171,14 +171,14 @@ export default function App() {
           {error && (
             <div className="error">
               {error}
-              <button type="button" className="link" onClick={() => setError(null)}>关闭</button>
+              <button type="button" className="link" onClick={() => setError(null)}>Dismiss</button>
             </div>
           )}
 
           {!loading && list.length === 0 ? (
-            <div className="empty">没有符合条件的餐厅，放宽一下筛选试试 🍜</div>
+            <div className="empty">No restaurants match. Try loosening the filters 🍜</div>
           ) : view === 'map' ? (
-            <Suspense fallback={<div className="empty">地图加载中…</div>}>
+            <Suspense fallback={<div className="empty">Loading map…</div>}>
               <MapView items={list} here={here} onOpen={setOpenId} />
             </Suspense>
           ) : (
@@ -192,16 +192,16 @@ export default function App() {
           {list.length < total && (
             <div className="more">
               <button type="button" className="secondary" onClick={loadMore} disabled={loading}>
-                {loading ? '加载中…' : `加载更多（还有 ${total - list.length} 家）`}
+                {loading ? 'Loading…' : `Load more (${total - list.length} left)`}
               </button>
-              {view === 'map' && <div className="muted small">地图只显示已加载的餐厅</div>}
+              {view === 'map' && <div className="muted small">The map shows loaded restaurants only</div>}
             </div>
           )}
         </main>
       </div>
 
       <footer className="site-footer">
-        餐厅基础数据 © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a>（ODbL）
+        Restaurant data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a> (ODbL)
       </footer>
 
       {openId !== null && meta && (

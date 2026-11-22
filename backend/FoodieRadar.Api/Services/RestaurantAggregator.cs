@@ -57,31 +57,31 @@ public static class RestaurantAggregator
         var overall = reviews.Average(v => v.Rating);
         double? nativeAvg = native.Count > 0 ? native.Average(v => v.Rating) : null;
 
-        var parts = new List<string> { $"共 {reviews.Count} 条评价，平均 {overall:0.0} 分" };
+        var parts = new List<string> { $"{reviews.Count} review{(reviews.Count == 1 ? "" : "s")}, average {overall:0.0}" };
         if (nativeAvg is not null)
-            parts.Add($"{cuisine?.OriginLabel ?? "同乡"}评价者 {native.Count} 条，平均 {nativeAvg:0.0} 分");
+            parts.Add($"{native.Count} from {cuisine?.OriginLabel ?? "native"} reviewers, average {nativeAvg:0.0}");
         if (r.MustOrder.Count > 0)
-            parts.Add($"最常被推荐：{string.Join("、", r.MustOrder.Take(3))}");
+            parts.Add($"most recommended: {string.Join(", ", r.MustOrder.Take(3))}");
         if (r.Tastes.Count > 0)
-            parts.Add($"口味：{string.Join("、", r.Tastes)}");
-        r.Summary = string.Join("；", parts) + "。";
+            parts.Add($"taste: {string.Join(", ", r.Tastes)}");
+        r.Summary = string.Join("; ", parts) + ".";
 
         string verdict;
         if (reviews.Count < 3)
-            verdict = "评价还比较少，结论仅供参考。";
+            verdict = "Only a few reviews so far, so treat this as a rough guide.";
         else if (nativeAvg is not null && native.Count >= 2 && nativeAvg - overall >= 0.5)
-            verdict = "同乡评价明显高于整体，差评多半是本地人不习惯这个口味，想吃正宗的可以放心。";
+            verdict = "Native reviewers rate it well above everyone else. Low scores are probably locals not used to the flavour, so go for it if you want the real thing.";
         else if (nativeAvg is not null && native.Count >= 2 && overall - nativeAvg >= 0.5)
-            verdict = "同乡评价者打分偏低，口味可能比较本地化，追求正宗的话要有心理准备。";
+            verdict = "Native reviewers rate it lower than everyone else. The flavours may be adapted to local tastes.";
         else if (overall >= 4.3)
-            verdict = "整体口碑很好。";
+            verdict = "Very well reviewed overall.";
         else if (overall < 3)
-            verdict = "整体口碑一般，谨慎尝试。";
+            verdict = "Mixed reviews overall. Go in with low expectations.";
         else
-            verdict = "口碑中等，可以按推荐菜点。";
+            verdict = "Decent reviews. Stick to the recommended dishes.";
 
         if (r.Avoid.Count > 0)
-            verdict += $"可以跳过：{string.Join("、", r.Avoid)}。";
+            verdict += $" Skip: {string.Join(", ", r.Avoid)}.";
 
         r.AiVerdict = verdict;
     }

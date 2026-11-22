@@ -2,9 +2,9 @@ export type ReviewSource = 'Google' | 'Xiaohongshu' | 'Reddit' | 'OnSite';
 
 export const SOURCE_LABEL: Record<ReviewSource, string> = {
   Google: 'Google',
-  Xiaohongshu: '小红书',
+  Xiaohongshu: 'RedNote',
   Reddit: 'Reddit',
-  OnSite: '本站',
+  OnSite: 'Foodie Radar',
 };
 
 export interface CuisineInfo {

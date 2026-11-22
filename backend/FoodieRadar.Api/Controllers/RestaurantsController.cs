@@ -15,7 +15,7 @@ public class RestaurantsController(AppDbContext db, IReviewInsightService insigh
 {
     private const int MaxPageSize = 60;
 
-    // GET /api/restaurants?cuisines=sichuan&tastes=麻辣&minSpice=3&nativeOnly=true&sort=native&q=鱼&page=1
+    // GET /api/restaurants?cuisines=sichuan&tastes=Mala&minSpice=3&nativeOnly=true&sort=native&q=fish&page=1
     [HttpGet]
     public async Task<ActionResult<PagedResult<RestaurantSummaryDto>>> List([FromQuery] RestaurantQuery query)
     {
@@ -111,7 +111,7 @@ public class RestaurantsController(AppDbContext db, IReviewInsightService insigh
         if (r.Reviews.Any(v => v.UserId == user.Id))
             return Conflict(new ValidationProblemDetails(new Dictionary<string, string[]>
             {
-                ["review"] = new[] { "你已经评价过这家店了" }
+                ["review"] = new[] { "You have already reviewed this restaurant" }
             }));
 
         var text = req.Text.Trim();
@@ -153,17 +153,17 @@ public class RestaurantsController(AppDbContext db, IReviewInsightService insigh
     {
         var e = new Dictionary<string, string[]>();
         if (req.Rating is < 1 or > 5)
-            e["rating"] = new[] { "评分需在 1-5 之间" };
+            e["rating"] = new[] { "Rating must be between 1 and 5" };
         if (string.IsNullOrWhiteSpace(req.Text) || req.Text.Trim().Length < 5 || req.Text.Length > 2000)
-            e["text"] = new[] { "评价需 5-2000 字" };
+            e["text"] = new[] { "Review must be 5 to 2000 characters" };
         if (TooManyOrTooLong(req.RecommendedDishes) || TooManyOrTooLong(req.AvoidDishes))
-            e["dishes"] = new[] { "推荐 / 避雷菜各最多 5 道，每道最多 30 字" };
+            e["dishes"] = new[] { "Up to 5 dishes each to order / skip, max 30 characters per dish" };
         if (req.Tastes is not null && req.Tastes.Any(t => !CuisineCatalog.Tastes.Contains(t)))
-            e["tastes"] = new[] { "口味标签无效" };
+            e["tastes"] = new[] { "Invalid taste tag" };
         if (req.SpiceRating is < 0 or > 5)
-            e["spiceRating"] = new[] { "辣度需在 0-5 之间" };
+            e["spiceRating"] = new[] { "Spice rating must be between 0 and 5" };
         if (req.PriceLevel is < 1 or > 3)
-            e["priceLevel"] = new[] { "价位需在 1-3 之间" };
+            e["priceLevel"] = new[] { "Price level must be between 1 and 3" };
         return e;
     }
 
