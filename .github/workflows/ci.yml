@@ -1,5 +1,8 @@
 name: CI
 
+# Runs on every push to main/dev and on every pull request.
+# Make "Backend tests", "Frontend tests" and "Docker build" required checks in
+# Settings → Branches so a PR can't be merged until they pass.
 on:
   push:
     branches: [main, dev]
@@ -7,19 +10,35 @@ on:
 
 jobs:
   backend:
+    name: Backend tests
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend/FoodieRadar.Api
+        working-directory: backend
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
-      - run: dotnet restore
-      - run: dotnet build --no-restore -c Release
+      - name: Restore
+        run: dotnet restore FoodieRadar.Api.Tests/FoodieRadar.Api.Tests.csproj
+      - name: Build
+        run: dotnet build FoodieRadar.Api.Tests/FoodieRadar.Api.Tests.csproj --no-restore -c Release
+      - name: Test (unit + API integration)
+        run: >
+          dotnet test FoodieRadar.Api.Tests/FoodieRadar.Api.Tests.csproj
+          --no-build -c Release
+          --logger "console;verbosity=normal"
+          --logger "trx;LogFileName=results.trx"
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-test-results
+          path: backend/FoodieRadar.Api.Tests/TestResults/
 
   frontend:
+    name: Frontend tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -30,9 +49,13 @@ jobs:
         with:
           node-version: 20
       - run: npm install
-      - run: npm run build
+      - name: Test
+        run: npm test
+      - name: Type-check and build
+        run: npm run build
 
   docker:
+    name: Docker build
     runs-on: ubuntu-latest
     needs: [backend, frontend]
     steps:

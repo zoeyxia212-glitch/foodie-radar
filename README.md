@@ -58,6 +58,29 @@ To run the API locally against Postgres instead: uncomment the `db` port in `doc
 `docker compose up db`, then set `Database__Provider=Postgres` and
 `ConnectionStrings__Default=Host=localhost;Database=foodie;Username=foodie;Password=<yours>`.
 
+## Tests
+
+```bash
+# Backend: unit tests + API integration tests (in-memory server, throwaway SQLite DB)
+cd backend
+dotnet test FoodieRadar.Api.Tests
+
+# Frontend: Vitest + Testing Library
+cd frontend
+npm test
+```
+
+| Suite | Covers |
+|---|---|
+| `Unit/RestaurantAggregatorTests` | must-order / avoid logic, taste threshold, spice & price averaging, verdict text, curated rows untouched |
+| `Unit/CatalogAndGeoTests` | native-origin matching, Auckland region bucketing, distance, keyword highlighting |
+| `Integration/ApiTests` | health, meta, paging, filters, 404, login required, one review per user, no self-voting, one vote per user, validation |
+| `frontend/src/**/*.test.ts(x)` | formatting helpers, `<Highlighted>` (incl. regex characters), query-string building, error messages |
+
+GitHub Actions runs all of these on every push to `main`/`dev` and on every pull request.
+To block merging until they pass: **Settings → Branches → Add rule** for `main` and `dev`, tick
+*Require status checks to pass*, and select **Backend tests**, **Frontend tests** and **Docker build**.
+
 ## Import real Auckland restaurants (free, OpenStreetMap)
 
 ```bash
