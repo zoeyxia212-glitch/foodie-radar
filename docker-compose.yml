@@ -1,0 +1,50 @@
+# Usage:
+#   cp .env.example .env      # then set JWT_KEY and POSTGRES_PASSWORD
+#   docker compose up --build
+#   open http://localhost:8080
+#
+# Import real Auckland restaurants (once the stack is up):
+#   docker compose run --rm api import-osm --remove-demo
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: foodie
+      POSTGRES_USER: foodie
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U foodie -d foodie"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    # Uncomment to connect from your machine (e.g. pgAdmin, or running the API outside Docker)
+    # ports:
+    #   - "5432:5432"
+
+  api:
+    build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Database__Provider: Postgres
+      ConnectionStrings__Default: Host=db;Port=5432;Database=foodie;Username=foodie;Password=${POSTGRES_PASSWORD}
+      Jwt__Key: ${JWT_KEY:?set JWT_KEY in .env (32+ characters)}
+      SeedDemoData: ${SEED_DEMO_DATA:-true}
+    # No published port: only reachable through the web container.
+    restart: unless-stopped
+
+  web:
+    build: ./frontend
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+volumes:
+  pgdata:
